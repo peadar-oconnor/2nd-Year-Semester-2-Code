@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<script type ='text/javascript'>
+		var icon, target = null;
+		window.addEventListener('DOMContentLoaded', setupEvents, false);
+		function setupEvents() {
+			icon = document.getElementById('iconImage');
+			
+			icon.addEventListener('dragstart', dragStart, false);
+			icon.addEventListener('dragend', dragEnd, false);
+			
+			target = document.getElementById('targetDiv');
+			target.addEventListener('dragenter', dragEnter, false);
+			target.addEventListener('dragover', dragOver, false);
+			target.addEventListener('dragleave', dragLeave, false);
+			
+			target.addEventListener('drop', dropIcon, false);
+		}
+		
+		function dragStart(evt) {
+			icon.style.borderStyle = 'solid';
+			evt.dataTransfer.setData("Text", evt.target.id);
+		}
+		function dragEnd() {
+			icon.style.borderStyle = 'none';
+		}
+		
+		function dragEnter() {
+			target.style.backgroundColor = 'red';
+		}
+		function dragOver(evt) {
+			evt.preventDefault();
+		}
+		function dragLeave() {
+			target.style.backgroundColor = 'yellow';
+		}
+		
+		function dropIcon(evt) {
+			evt.preventDefault();
+			var data = evt.dataTransfer.getData("Text");
+			evt.target.appendChild(document.getElementById(data));
+		}
+	</script>
+	</head>
+	<body>
+		<img src='myImage.png' id='iconImage' draggable='true'>
+		<div id='targetDiv'
+				style='width:200px; height:100px; background-color:yellow;position:absolute; left:50%; top:0%;'>
+		</div>
+	</body>
+</html>

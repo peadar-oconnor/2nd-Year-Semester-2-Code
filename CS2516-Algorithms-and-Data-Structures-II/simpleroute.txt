@@ -1,0 +1,36 @@
+Node
+id: 1
+gps: 51.9293098 -8.4600427
+Node
+id: 2
+gps: 51.9289155 -8.4595813
+Node
+id: 3
+gps: 51.9292243 -8.4595097
+Node
+id: 4
+gps: 51.9292555 -8.4595200
+Edge
+from: 1
+to: 2
+length: 0.009984712552286574
+time: 7.188993037646333
+oneway: false
+Edge
+from: 1
+to: 3
+length: 0.08632656229286617
+time: 7.7693906063579545
+oneway: false
+Edge
+from: 2
+to: 4
+length: 0.038109834876963095
+time: 3.4298851389266787
+oneway: false
+Edge
+from: 3
+to: 4
+length: 0.02185869185327499
+time: 1.9672822667947492
+oneway: false

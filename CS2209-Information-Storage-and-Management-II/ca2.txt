@@ -1,0 +1,22 @@
+Q1:
+use poc10_db
+
+db.student.insertMany( [ { name: "Smith", studentNumber: 17, class: 1, major: "CS" }, { name: "Brown", studentNumber: 8, class: 2, major: "CS" } ]);
+
+db.course.insertMany( [ { courseName: "Intro to Computer Science", courseNumber: "CS1310", creditHours: 4, department: "CS" }, { courseName: "Data Structures", courseNumber: "CS3320", creditHours: 4, department: "CS" }, { courseName: "Discrete Mathematics", courseNumber: "MATH2410", creditHours: 3, department: "MATH" }, { courseName: "Database", courseNumber: "CS3380", creditHours: 3, department: "CS" } ]);
+
+db.section.insertMany( [ { sectionIdentifier: 85, courseNumber: "MATH2410", semester: "Fall", year: 07, instructor: "King" }, { sectionIdentifier: 92, courseNumber: "CS1310", semester: "Fall", year: 07, instructor: "Anderson" }, { sectionIdentifier: 102, courseNumber: "CS3320", semester: "Spring", year: 08, instructor: "Knuth" }, { sectionIdentifier: 112, courseNumber: "MATH2410", semester: "Fall", year: 08, instructor: "Chang" }, { sectionIdentifier: 119, courseNumber: "CS1310", semester: "Fall", year: 08, instructor: "Anderson" }, { sectionIdentifier: 135, courseNumber: "CS3380", semester: "Fall", year: 08, instructor: "Stone" } ]);
+
+db.gradeReport.insertMany( [ { studentNumber: 17, sectionIdentifier: 112, grade: "B" }, { studentNumber: 17, sectionIdentifier: 119, grade: "C" }, { studentNumber: 8, sectionIdentifier: 85, grade: "A" }, { studentNumber: 8, sectionIdentifier: 92, grade: "A" }, { studentNumber: 8, sectionIdentifier: 102, grade: "B" }, { studentNumber: 8, sectionIdentifier: 135, grade: "A" } ]);
+
+db.prerequisite.insertMany( [ { courseNumber: "CS3380", prerequisiteNumber: "CS3320" }, { courseNumber: "CS3380", prerequisiteNumber: "MATH2410" }, { courseNumber: "CS3320", prerequisiteNumber: "CS1310" } ]);
+
+Q2:
+db.gradeReport.aggregate([{ $lookup: { from: "student", localField: "studentNumber", foreignField: "studentNumber", as: "student" } }, { $lookup: { from: "section", localField: "sectionIdentifier", foreignField: "sectionIdentifier", as: "section" } }, { $unwind: { path: "$section" } }, {$match: { "student.name":"Smith"}}, {$project: {"grade":1, "section.courseNumber":1}} ]).pretty();
+
+
+Q3:
+db.section.aggregate([{ $lookup: { from: "course", localField: "courseNumber", foreignField: "courseNumber", as: "course" } }, { $lookup: { from: "gradeReport", localField: "sectionIdentifier", foreignField: "sectionIdentifier", as: "gradeReport" } }, { $unwind: { path: "$gradeReport" }}, { $unwind: { path: "$course" }}, { $lookup: { from: "student", localField: "gradeReport.studentNumber", foreignField: "studentNumber", as: "gradeReport.student" } }, { $unwind: { path: "$gradeReport.student" } }, {$match: { "course.courseName":"Database"}}, {$project: {"gradeReport.grade":1, "gradeReport.student.name":1}} ]).pretty();
+
+Q4:
+db.course.aggregate([{ $lookup: { from: "prerequisite", localField: "courseNumber", foreignField: "courseNumber", as: "prerequisite" }}, { $unwind: { path: "$prerequisite" }}, { $lookup: { from: "course", localField: "prerequisite.prerequisiteNumber", foreignField: "courseNumber", as: "prerequisite.course" }}, { $unwind: { path: "$prerequisite.course" }}, {$match: { "courseName":"Database"}}, {$project: {"prerequisite.course.courseName":1}} ]).pretty();

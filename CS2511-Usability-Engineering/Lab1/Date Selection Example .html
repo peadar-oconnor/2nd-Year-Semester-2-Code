@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script type="text/javascript">
+
+  var monthLengths = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+
+  function setDays() {
+
+    //Obtain the SelectedIndex of the MONTHS selection-box, indicating which month has been selected
+    var monthNumber = document.theForm.months.selectedIndex;
+
+    //Set the length of the DAYS selection-box to the number of days in the chosen month (obtained from the array)
+    document.theForm.days.options.length = monthLengths[monthNumber];
+
+    //Populate the DAYS selection-box with the numbers of the days
+    for (var i = 0; i < monthLengths[monthNumber]; i++) {
+
+      document.theForm.days.options[i].text = (i + 1);
+    }
+  }
+
+  function initialise() {
+
+    //The MONTHS array will default to showing January when the page is loaded
+    //Call the setDays() function to populate the DAYS array with the numbers 0...31 for January
+    setDays();
+  }
+</script>
+</head>
+
+<body onload="initialise()">
+
+<form name='theForm'>
+
+<select name="months" onchange="setDays()">
+  <option selected>January</option>
+  <option>February</option>
+  <option>March</option>
+  <option>April</option>
+  <option>May</option>
+  <option>June</option>
+  <option>July</option>
+  <option>August</option>
+  <option>September</option>
+  <option>October</option>
+  <option>November</option>
+  <option>December</option>
+</select>
+
+<select name="days">
+<!-- No need to create options here - the options are created by the script -->
+</select>
+
+</form>
+
+</body>
+</html>

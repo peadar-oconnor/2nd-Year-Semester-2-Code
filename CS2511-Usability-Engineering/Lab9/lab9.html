@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type ='text/javascript'>
+
+	window.addEventListener('DOMContentLoaded', setup, false);
+	var popupMenu = null;
+	var selectedIcon = null;
+	
+	function setup() {
+		document.addEventListener('click', createMenu, false);
+	}
+	
+	function createMenu(evt) {
+	
+		if(!popupMenu) {
+			var cursorX = parseInt(evt.clientX);
+			var cursorY = parseInt(evt.clientY);
+			var leftPosn = topPosn = 100;
+			if(cursorX > 100) { leftPosn = cursorX - 100 };
+			if(cursorY > 100) { topPosn = cursorY - 100 };
+			var menuDiv = document.createElement('div');
+			menuDiv.style.position = 'absolute';
+			menuDiv.style.left = leftPosn + 'px';
+			menuDiv.style.top = topPosn + 'px';
+			menuDiv.style.width = '200px';
+			menuDiv.style.height = '200px';
+			menuDiv.style.borderRadius = '100px';
+			menuDiv.style.backgroundColor = '#cccccc';
+			popupMenu = document.documentElement.appendChild(menuDiv);
+			popupMenu.addEventListener('click', closeMenu, false);
+			document.addEventListener('click', closeMenu, false);
+			addIcon(80, 10, 0);
+			addIcon(150, 80, 1);
+			addIcon(80, 150, 2);
+			addIcon(10, 80, 3);
+			
+		}
+		
+	}
+	
+	function closeMenu(evt) {
+	
+		evt.preventDefault();
+		evt.stopPropagation();
+		document.documentElement.removeChild(popupMenu);
+		if (selectedIcon){ alert('Selected icon = ' + selectedIcon)};
+		document.removeEventListener('click', closeMenu, false);
+		popupMenu = null;
+		selectedIcon = null;
+		
+	}
+	
+	function addIcon(xCoord, yCoord, iconNumber) {
+
+		var iconDiv = document.createElement('div');
+		iconDiv.id = 'icon' + iconNumber;
+		iconDiv.style.position = 'absolute';
+		iconDiv.style.left = xCoord + 'px';
+		iconDiv.style.top = yCoord + 'px';
+		iconDiv.style.width = '40px';
+		iconDiv.style.height = '40px';
+		iconDiv.style.backgroundColor = '#ff0000';
+		iconDiv.style.borderRadius = '10px';
+		newIcon = popupMenu.appendChild(iconDiv);
+		newIcon.addEventListener('mouseover', selectIcon, false);
+		
+	}
+	
+	function selectIcon(evt) {
+	
+		selectedIcon = evt.target.id
+		
+	}
+
+</script>
+</head>
+<body>
+
+	
+
+</body>
+</html>

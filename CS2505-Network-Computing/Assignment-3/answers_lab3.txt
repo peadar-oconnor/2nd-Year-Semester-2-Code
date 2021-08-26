@@ -1,0 +1,12 @@
+Peadar O'Connor 117302273
+
+At first I did not know how to pass command line arguments into my client python file. With some research I found out that I could use the "sys" module to take these arguments. They came in a list with the first item (index 0) being the python file name. Using this list I was able to extract the individual parameters easily to use in my client file. 
+
+A small problem was that the port number came as a string, so I had to convert it to an integer for use in sock.connect.
+
+I was not sure how to send the HTTP request, so I temporarily modified the WebServer.py file to see what the browser was sending by printing the message. I found that the browser sent a GET request in the first line; GET /HelloWorld.html HTTP/1.1
+Using this line I was able to know what the client should send to request the page. 
+
+This did not work quite as planned as I thought that the server would send everything in one message that would be caught by "print(sock.recv(4096).decode())". Instead I would only get 
+one message "HTTP/1.1 200 OK". Upon inspecting the WebServer.py file, I noticed that the server would keep sending data until all of the outputdata was send, and would then send "\r\n" to signify the end of the message. 
+Using this information I set up a while loop that would keep running until all the data is sent. It takes the data in increments and adds it all to a total_data variable, which is printed at the end. It knows when to stop when there is no more data being sent by the server i.e. nothing in the data variable.

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+		function processForm() {
+		alert(document.theForm.txtBox.value);
+		}
+		
+		function processOptions() {
+		var index = document.theOptions.selBox.selectedIndex;
+		alert(document.theOptions.selBox.options[index].text);
+		}
+		</script>
+	</head>
+	<body>
+		<form name="theForm">
+			<textarea name="txtBox">Some text...</textarea>
+		</form>
+		<button onclick="processForm()">Process Form</button>
+		<form name="theOptions">
+			<select name="selBox" onchange="processOptions()">
+				<option>January</option>
+				<option>February</option>
+				<option>March</option>
+				<option>April</option>
+				<option>May</option>
+				<option>June</option>
+				<option>July</option>
+				<option>August</option>
+				<option>September</option>
+				<option>October</option>
+				<option>November</option>
+				<option>December</option>
+			</select>
+		</form>
+	</body>
+</html>

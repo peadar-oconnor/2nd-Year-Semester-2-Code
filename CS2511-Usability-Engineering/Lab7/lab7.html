@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type ='text/javascript'>
+
+	function showValue(sliderSetting) {  
+		document.getElementById('textBox').value = sliderSetting;
+	}
+
+</script>
+</head>
+<body>
+
+	<input type='range' onchange='showValue(this.value)' value="150" min="0" max="200">  
+	<input type='text' id='textBox'>
+
+</body>
+</html>

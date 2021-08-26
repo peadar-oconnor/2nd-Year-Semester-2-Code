@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type ='text/javascript'>
+			window.addEventListener('DOMContentLoaded', setupEvents, false);
+			
+			var target = null;
+			var filelist = [];
+			
+			function setupEvents() {
+			
+				if(window.File && window.FileList && window.FileReader) {
+					target = document.getElementById('dropArea');
+					target.addEventListener('dragenter', dragEnter, false);
+					target.addEventListener('dragover', dragOver, false);
+					target.addEventListener('dragleave', dragLeave, false);
+					target.addEventListener('drop', dropFile, false);
+				}
+				else alert('HTML 5 File API not supported');
+			}
+			
+			function dragEnter(evt) {
+				evt.stopPropagation();
+				evt.preventDefault();
+				target.style.backgroundColor = 'red';
+			}
+			
+			function dragLeave(evt) {
+				evt.stopPropagation();
+				evt.preventDefault();
+				target.style.backgroundColor = 'white'
+			}
+			
+			function dragOver(evt) {
+				evt.stopPropagation();
+				evt.preventDefault();
+			}
+			
+			function dropFile(evt) {
+				evt.stopPropagation();
+				evt.preventDefault();
+				target.style.backgroundColor = 'white'
+				var file = evt.dataTransfer.files[0];
+				filelist.push(file);
+				var data = "";
+				for (i = 0; i < filelist.length; i++) {
+					data += (filelist[i].name + "\n" + filelist[i].size + " bytes\n" + filelist[i].type + "\n\n");
+				}
+				document.getElementById('displayArea').value = data;
+			}
+		</script>
+	</head>
+	<body>
+		<div id='dropArea' style='width:100%; height:100px;border-style:solid'>
+		Drop File Here
+		</div>
+		
+		<textarea id='displayArea' style='width:100%; height:300px;border-style:solid'>
+		</textarea>
+	</body>
+</html>

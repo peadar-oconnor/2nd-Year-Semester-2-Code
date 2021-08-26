@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet"     
+	href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css">
+<script type ='text/javascript'>
+	var products = [10, 20, 35, 45, 55, 60, 80, 90, 95, 105, 140, 160, 220]
+
+	window.addEventListener('DOMContentLoaded', initialise, false);
+	function initialise() {  
+		$( "#slider" ).slider({ values: [ 20,80 ] }, {max:250});
+		$( "#slider" ).on( 
+			{ slide:
+				function() { 
+					var setting = $("#slider").slider("option", "values"); 
+					document.getElementById('valuesText').value = 
+						"€" + setting[0] + ' to €' + setting[1];
+				}
+			}
+		) ;
+	}
+	
+	function filter() {
+		var values = $("#slider").slider("option", "values"); 
+		var sectionForProducts = document.getElementById('itemsSection')
+		sectionForProducts.innerHTML = ""
+		for (i = 0; i < products.length; i++) {
+			if (products[i] >= values[0] && products[i] <= values[1]) {
+				var p = document.createElement("p");
+				sectionForProducts.append("Product worth €" + products[i] , p)
+			}
+		}
+	}
+
+</script>
+</head>
+<body>  
+	<h1>Price Filter</h1>
+	<div id="slider"></div>  
+	<input type="text" id="valuesText" value="€20 to €80" readonly>
+	<button type="button" onclick="filter()">Filter</button>
+	<section id="itemsSection">
+		
+	</section>
+</body>
+</html>

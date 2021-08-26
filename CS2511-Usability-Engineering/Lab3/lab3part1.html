@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type ='text/javascript'>
+	var selectedDiv = null;
+	var hOffset, vOffset = 0
+	var allDivs = document.getElementsByTagName('div');
+	window.addEventListener('DOMContentLoaded', setupEvents, false);
+	function setupEvents() {
+		for (var i = 0; i < allDivs.length; i++) {
+			allDivs[i].addEventListener('mousedown', startDrag, false);
+		}
+	}
+	
+	function startDrag(evt) {
+		document.addEventListener('mousemove', dragDiv, false);
+		document.addEventListener('mouseup', stopDrag, false);
+		for (var i = 0; i < allDivs.length; i++) allDivs[i].style.zIndex = 0;
+		selectedDiv = evt.target;
+		selectedDiv.style.zIndex = 1;
+		hOffset = parseInt(evt.clientX) - parseInt(selectedDiv.style.left);
+		vOffset = parseInt(evt.clientY) - parseInt(selectedDiv.style.top);
+		return false;
+	}
+	
+	function dragDiv(evt) {
+		selectedDiv.style.left = (parseInt(evt.clientX) - hOffset) + 'px';
+		selectedDiv.style.top = (parseInt(evt.clientY) - vOffset) + 'px';
+		return false;
+	} 
+	
+	function stopDrag() {
+		document.removeEventListener('mousemove', dragDiv, false);
+		document.removeEventListener('mouseup', stopDrag, false);
+	}
+</script>
+</head>
+<body>
+	<div id='div0'
+		style='position:absolute; left:50px; top:50px; width:50px; height:50px; background-color:red'>
+	</div>
+	<div style='position:absolute; left:150px; top:50px; width:50px;height:50px; background-color:blue'>
+	</div>
+</body>
+</html>
