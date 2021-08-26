@@ -1,4 +1,4 @@
-# Second-Year-Semester-2
+# 2nd-Year-Semester-2-Code
 All of my assignment/project code from Semester 2 of 2nd Year Computer Science
 
 - CS2209 Information Storage and Management II: NoSQL databases with Mongo and Neo4j
